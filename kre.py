@@ -14,6 +14,25 @@ def main():
                 take_input("O")
             counter += 1
 
+
+def take_input(player_token):
+    valid = False
+    while not valid:
+        player_answer = input("Куда поставим " + player_token + "? ")
+        try:
+            player_answer = int(player_answer)
+        except ValueError:
+            print("Некорректный ввод. Вы уверены, что ввели число?")
+            continue
+        if 1 <= player_answer <= 9:
+            if str(board[player_answer - 1]) not in "XO":
+                board[player_answer - 1] = player_token
+                valid = True
+            else:
+                print("Эта клетка уже занята!")
+        else:
+            print("Некорректный ввод. Введите число от 1 до 9.")
+
             tmp = check_win(board)
             if tmp:
                 print(tmp, "выиграл!")
@@ -39,4 +58,5 @@ def check_win(board):
 
 if __name__ == "__main__":
     main()
+
 
