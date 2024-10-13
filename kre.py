@@ -1,31 +1,29 @@
 
-board = list(range(1, 10))
 
 
-def draw_board(board):
-    print("-" * 13)
-    for i in range(3):
-        print("|", board[0 + i * 3], "|", board[1 + i * 3], "|", board[2 + i * 3], "|")
-        print("-" * 13)
-
-
-def take_input(player_token):
-    valid = False
-    while not valid:
-        player_answer = input("Куда поставим " + player_token + "? ")
-        try:
-            player_answer = int(player_answer)
-        except ValueError:
-            print("Некорректный ввод. Вы уверены, что ввели число?")
-            continue
-        if 1 <= player_answer <= 9:
-            if str(board[player_answer - 1]) not in "XO":
-                board[player_answer - 1] = player_token
-                valid = True
+def main():
+    while True:
+        board = list(range(1, 10))  # Reset the board
+        counter = 0
+        win = False
+        while not win:
+            draw_board(board)
+            if counter % 2 == 0:
+                take_input("X")
             else:
-                print("Эта клетка уже занята!")
-        else:
-            print("Некорректный ввод. Введите число от 1 до 9.")
+                take_input("O")
+            counter += 1
+
+            tmp = check_win(board)
+            if tmp:
+                print(tmp, "выиграл!")
+                win = True
+                break
+            if counter == 9:
+                print("Ничья!")
+                break
+        draw_board(board)
+
 
 
 def check_win(board):
@@ -34,3 +32,11 @@ def check_win(board):
         if board[each[0]] == board[each[1]] == board[each[2]]:
             return board[each[0]]
     return False
+
+        restart = input("Начать новую игру? (y/n): ")
+        if restart.lower() != 'y':
+            break
+
+if __name__ == "__main__":
+    main()
+
